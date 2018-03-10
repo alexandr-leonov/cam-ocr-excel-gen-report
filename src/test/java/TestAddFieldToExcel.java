@@ -5,6 +5,7 @@ import finance.excel.ExcelSimpleStructure;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.Test;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class TestAddFieldToExcel {
         structure2.setDataToExcelField(collection2);
     }
 
-    @Ignore
+    @Test
     public void writeToExcel(){
         setCollection();
         Collection<ExcelDataStructure> array = new ArrayList<ExcelDataStructure>();

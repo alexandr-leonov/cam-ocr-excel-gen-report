@@ -8,9 +8,10 @@ import java.io.File;
 
 public class UsefulTesseract {
     public void start(){
-        File imageFile = new File("D:\\samoanalyze.png");
+        File imageFile = new File("2310.jpg");
         Tesseract instance = new Tesseract();
-        instance.setDatapath("D:\\tes\\tess4j-3.4.4");
+
+        instance.setDatapath("/home/venum/tess/tessdata");
         instance.setLanguage("eng");
         try {
             String result = instance.doOCR(imageFile);

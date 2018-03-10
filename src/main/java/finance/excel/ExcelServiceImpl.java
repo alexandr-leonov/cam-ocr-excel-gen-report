@@ -34,7 +34,7 @@ public class ExcelServiceImpl implements ExcelService {
         // Записываем всё в файл
         FileOutputStream fos = null;
         try {
-            fos = new FileOutputStream("D://test.xls", true);
+            fos = new FileOutputStream("test.xls", true);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

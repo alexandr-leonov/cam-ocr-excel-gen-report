@@ -3,6 +3,7 @@ import finance.excel.ExcelSimpleStructure;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.Test;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class TestPrepareExcelField {
         structure = new ExcelSimpleStructure();
     }
 
-    @Ignore
+    @Test
     public void first() {
         Collection<String> collection = new ArrayList<String>();
         SimpleDateFormat simpleDateFormat =new SimpleDateFormat("dd.MM.YYYY");

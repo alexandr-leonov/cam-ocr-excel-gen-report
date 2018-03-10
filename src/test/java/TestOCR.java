@@ -7,17 +7,17 @@ public class TestOCR {
     private UsefulTesseract aspire;
 
     @Before
-    public void start(){
+    public void start() {
         aspire = new UsefulTesseract();
     }
 
     @Test
-    public void textWithPNG(){
+    public void textWithPNG() {
         aspire.start();
     }
 
     @After
-    public void end(){
+    public void end() {
         aspire = null;
     }
 }

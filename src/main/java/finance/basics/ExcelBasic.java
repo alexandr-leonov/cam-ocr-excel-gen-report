@@ -23,7 +23,7 @@ public class ExcelBasic {
         Sheet sheet = book.createSheet(bookName);
 
         // Нумерация начинается с нуля
-        Row row = sheet.createRow(3);
+        Row row = sheet.createRow(0);
 
         Cell name = row.createCell(0);
         name.setCellValue("John");
@@ -45,7 +45,7 @@ public class ExcelBasic {
         // Меняем размер столбца
         sheet.autoSizeColumn(2);
 
-        Row secondRow = sheet.createRow(4);
+        Row secondRow = sheet.createRow(1);
         secondRow.createCell(0).setCellValue("Привет");
 
         // Записываем всё в файл

@@ -92,15 +92,6 @@
             <scope>test</scope>
         </dependency>
 
-
-<!--Work with OCR-->
-        <!-- https://mvnrepository.com/artifact/com.asprise.ocr/java-ocr-api -->
-        <dependency>
-            <groupId>com.asprise.ocr</groupId>
-            <artifactId>java-ocr-api</artifactId>
-            <version>15.3.0.3</version>
-        </dependency>
-
         <!-- https://mvnrepository.com/artifact/net.sourceforge.tess4j/tess4j -->
         <dependency>
             <groupId>net.sourceforge.tess4j</groupId>
