@@ -13,7 +13,7 @@ public class TestOCR {
 
     @Test
     public void textWithPNG() {
-        aspire.start();
+        aspire.start("D:\\2310.png");
     }
 
     @After
