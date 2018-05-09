@@ -4,6 +4,6 @@ import java.util.*;
 
 public interface ExcelService {
 
-    void writeIntoExcelDocument(Collection<ExcelDataStructure> fields);
+    void writeIntoExcelDocument(Collection<ExcelDataStructure> fields,String reportName);
 
 }

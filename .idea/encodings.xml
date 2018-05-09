@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/src/main/java/finance/basics/ExcelBasic.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/finance/camera/ImageExtension.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/finance/camera/PrepareImage.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/finance/doctype/AbstractDocumentType.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/finance/doctype/AbstractDocumentType.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/finance/doctype/CafeMegapolisDT.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/finance/doctype/DocumentType.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/finance/doctype/DocumentTypeLinker.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/finance/doctype/entity/DocumentEntity.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/finance/doctype/item/ProductItem.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/finance/excel/ExcelDataStructure.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/finance/excel/ExcelService.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/finance/excel/ExcelServiceImpl.java" charset="UTF-8" />
@@ -9,9 +17,9 @@
     <file url="file://$PROJECT_DIR$/src/main/java/finance/excel/ReportColumnStructure.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/finance/ocr/UsefulTesseract.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/test/java/TestAddFieldToExcel.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/test/java/TestExcel.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/test/java/TestGetFieldFromExcel.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/test/java/TestDocumentTypes.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/test/java/TestOCR.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/test/java/TestPrepareExcelField.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/test/java/TestPrepareImage.java" charset="UTF-8" />
   </component>
 </project>

@@ -1,8 +1,8 @@
 import finance.excel.ExcelDataStructure;
 import finance.excel.ExcelSimpleStructure;
+import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
@@ -12,7 +12,9 @@ import java.util.Date;
 
 
 public class TestPrepareExcelField {
+    private final static Logger LOGGER = Logger.getLogger(TestPrepareExcelField.class);
     private ExcelDataStructure structure;
+
     @Before
     public void start() throws Exception {
         structure = new ExcelSimpleStructure();
@@ -28,7 +30,7 @@ public class TestPrepareExcelField {
         collection.add("Name of gift");
         collection.add(String.valueOf(12));
         structure.setDataToExcelField(collection);
-        System.out.println(structure.getExcelField());
+        LOGGER.info(structure.getExcelField());
     }
 
     @After

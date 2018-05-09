@@ -1,5 +1,6 @@
 package finance.excel;
 
+import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -13,12 +14,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class ExcelServiceImpl implements ExcelService {
+    private final static Logger LOGGER = Logger.getLogger(ExcelServiceImpl.class);
 
     @Override
-    public void writeIntoExcelDocument(Collection<ExcelDataStructure> fields) {
+    public void writeIntoExcelDocument(Collection<ExcelDataStructure> fields,String reportName) {
         Workbook book = new HSSFWorkbook();
         Sheet sheet = book.createSheet("Finance report");
         int rowCounter = 0;
+        float summ = 0;
+        int numberCostColumn = -1;
         for (ExcelDataStructure field : fields) {
             Row row = sheet.createRow(rowCounter);
             ArrayList<Object> keys = new ArrayList<Object>(field.getExcelField().keySet());
@@ -28,23 +32,37 @@ public class ExcelServiceImpl implements ExcelService {
                 cell.setCellValue(field.getExcelField().values()
                         .toArray()[keys.indexOf(field.getColumnValues()[j])]
                         .toString());
+                if(ReportColumnStructure.COST_GIFT.equals(field.getColumnValues()[j])){
+                    numberCostColumn=j;
+                }
+            }
+            if(numberCostColumn!=-1){
+                summ+=Float.parseFloat(field.getExcelField().values()
+                        .toArray()[keys.indexOf(field.getColumnValues()[numberCostColumn])].toString());
             }
             rowCounter++;
         }
-        // Записываем всё в файл
+        if(numberCostColumn!=-1) {
+            Row row = sheet.createRow(rowCounter);
+            Cell cell = row.createCell((numberCostColumn>0) ? numberCostColumn-1 : numberCostColumn+1);
+            cell.setCellValue((numberCostColumn>0) ? "Итог:" :"<- Итог");
+            Cell cell2 = row.createCell(numberCostColumn);
+            cell2.setCellValue(summ);
+        }
         FileOutputStream fos = null;
         try {
-            fos = new FileOutputStream("test.xls", true);
+            //generate report in EXCEL 2003 format
+            fos = new FileOutputStream(reportName+".xls", true);
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            LOGGER.error("", e);
         }
         try {
             book.write(fos);
             book.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("",e);
         }
-        System.out.println("Report was created successfully!");
+        LOGGER.info("Report was created successfully!");
     }
 }

@@ -4,7 +4,6 @@ import finance.excel.ExcelServiceImpl;
 import finance.excel.ExcelSimpleStructure;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
@@ -49,7 +48,7 @@ public class TestAddFieldToExcel {
         Collection<ExcelDataStructure> array = new ArrayList<ExcelDataStructure>();
         array.add(structure);
         array.add(structure2);
-        service.writeIntoExcelDocument(array);
+        service.writeIntoExcelDocument(array,"test");
     }
 
     @After

@@ -20,7 +20,6 @@ public class PrepareImage {
 
     public void createSnippingImage(String newImageName, int startPositionX, int startPositionY, int width, int height) throws IOException {
         if (image == null) throw new NullPointerException("error to load source image");
-        System.out.println(startPositionY + " | " + height);
         BufferedImage newImage = image.getSubimage(startPositionX, startPositionY, width, height);
         File output = new File(newImageName);
         for (int i = 0; i < ImageExtension.values().length; i++) {
@@ -36,13 +35,21 @@ public class PrepareImage {
     public List<String> splitImageToRows(String newImageName, int rowHeight) throws IOException {
         List<String> rows = new ArrayList<String>();
         int counterParts = (int) Math.floor((float) image.getHeight() / rowHeight);
-        System.out.println(counterParts + " + " + image.getHeight() + " = " + image.getWidth());
         for (int i = 0; i < counterParts; i++) {
             String namePart = newImageName.replaceAll("\\.", "-" + i + ".");
             createSnippingImage(namePart, 0, i * rowHeight, image.getWidth(), rowHeight);
             rows.add(namePart);
         }
         return rows;
+    }
+
+    //Next methods return size in pixels.
+    public float getSourceImageHeigh() {
+        return image.getHeight();
+    }
+
+    public float getSourceImageWidth() {
+        return image.getWidth();
     }
 
 }
