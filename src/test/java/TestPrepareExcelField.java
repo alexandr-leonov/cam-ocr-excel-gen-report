@@ -1,7 +1,6 @@
 import finance.excel.ExcelDataStructure;
 import finance.excel.ExcelSimpleStructure;
 import org.apache.log4j.Logger;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,7 +20,7 @@ public class TestPrepareExcelField {
     }
 
     @Test
-    public void first() {
+    public void calculateStructure() {
         Collection<String> collection = new ArrayList<String>();
         SimpleDateFormat simpleDateFormat =new SimpleDateFormat("dd.MM.YYYY");
         collection.add(simpleDateFormat.format(new Date()));
@@ -31,10 +30,5 @@ public class TestPrepareExcelField {
         collection.add(String.valueOf(12));
         structure.setDataToExcelField(collection);
         LOGGER.info(structure.getExcelField());
-    }
-
-    @After
-    public void end(){
-        structure = null;
     }
 }

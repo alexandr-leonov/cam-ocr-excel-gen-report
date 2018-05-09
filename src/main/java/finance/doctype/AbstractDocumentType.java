@@ -1,7 +1,5 @@
 package finance.doctype;
 
-import finance.doctype.entity.DocumentEntity;
-
 public abstract class AbstractDocumentType implements DocumentType, DocumentEntity {
     private String date;
     private float sum;
@@ -25,5 +23,4 @@ public abstract class AbstractDocumentType implements DocumentType, DocumentEnti
     public String getDate() {
         return date;
     }
-
 }

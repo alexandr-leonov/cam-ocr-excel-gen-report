@@ -2,7 +2,6 @@ import finance.excel.ExcelDataStructure;
 import finance.excel.ExcelService;
 import finance.excel.ExcelServiceImpl;
 import finance.excel.ExcelSimpleStructure;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -49,11 +48,5 @@ public class TestAddFieldToExcel {
         array.add(structure);
         array.add(structure2);
         service.writeIntoExcelDocument(array,"test");
-    }
-
-    @After
-    public void end(){
-        structure = structure2 = null;
-        service = null;
     }
 }

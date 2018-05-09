@@ -12,7 +12,7 @@ public class TestPrepareImage {
     private PrepareImage img;
 
     @Before
-    public void setUp(){
+    public void start(){
         img = new PrepareImage(new File("D:\\2311.jpg"));
     }
 

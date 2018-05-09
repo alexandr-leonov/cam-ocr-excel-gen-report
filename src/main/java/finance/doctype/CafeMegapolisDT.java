@@ -35,16 +35,15 @@ public class CafeMegapolisDT extends AbstractDocumentType {
     }
 
     @Override
-    public void calculateReport(String reportName) {
+    public void calculateDocument(String reportName) {
         try {
             for (ProductItem product : productItems) {
                 fullData.add(prepareStructure(product));
             }
             writeToExcel(reportName);
-        }catch (ParseException e){
-            LOGGER.error("Exception preparing report structure.",e);
+        } catch (ParseException e) {
+            LOGGER.error("Exception preparing report structure.", e);
         }
-
     }
 
     private ExcelDataStructure prepareStructure(ProductItem productItem) throws ParseException {
@@ -59,12 +58,12 @@ public class CafeMegapolisDT extends AbstractDocumentType {
         return structure;
     }
 
-    private void writeToExcel(String reportName){
+    private void writeToExcel(String reportName) {
         ExcelService service = new ExcelServiceImpl();
         Collection<ExcelDataStructure> array = new ArrayList<ExcelDataStructure>();
-        for(ExcelDataStructure structure: fullData) {
+        for (ExcelDataStructure structure : fullData) {
             array.add(structure);
         }
-        service.writeIntoExcelDocument(array,reportName);
+        service.writeIntoExcelDocument(array, reportName);
     }
 }
