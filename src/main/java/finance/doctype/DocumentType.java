@@ -13,7 +13,7 @@ public interface DocumentType {
 
     void setSum(float sum);
 
-    void setProductItemList(List<ProductItem> ProductItemList);
+    void setProductItemList(List<ProductItem> productItemList);
 
     List<ProductItem> getProductItemList();
 

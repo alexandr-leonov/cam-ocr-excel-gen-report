@@ -16,23 +16,8 @@ import java.util.List;
 public class CafeMegapolisDT extends AbstractDocumentType {
     private final static Logger LOGGER = Logger.getLogger(CafeMegapolisDT.class);
     private final static String NAME = "Кафе Мегаполис";
-    private List<ProductItem> productItems;
+    private List<ProductItem> productItems= new ArrayList<>();
     private List<ExcelDataStructure> fullData = new ArrayList<>();
-
-    @Override
-    public String toString() {
-        return "MEGAPOLIS CHECK DOCUMENT TYPE";
-    }
-
-    @Override
-    public List<ProductItem> getProductItemList() {
-        return productItems;
-    }
-
-    @Override
-    public void setProductItemList(List<ProductItem> productItems) {
-        this.productItems = productItems;
-    }
 
     @Override
     public void calculateDocument(String reportName) {
@@ -65,5 +50,20 @@ public class CafeMegapolisDT extends AbstractDocumentType {
             array.add(structure);
         }
         service.writeIntoExcelDocument(array, reportName);
+    }
+
+    @Override
+    public List<ProductItem> getProductItemList() {
+        return productItems;
+    }
+
+    @Override
+    public void setProductItemList(List<ProductItem> productItems) {
+        this.productItems = productItems;
+    }
+
+    @Override
+    public String toString() {
+        return "MEGAPOLIS CHECK DOCUMENT TYPE";
     }
 }

@@ -1,9 +1,6 @@
 package finance.core;
 
-import finance.doctype.AbstractDocumentType;
-import finance.doctype.CafeMegapolisDT;
-import finance.doctype.DocumentTypeLinker;
-import finance.doctype.DocumentEntity;
+import finance.doctype.*;
 import finance.doctype.item.ProductItem;
 import finance.ocr.UsefulTesseract;
 
@@ -11,17 +8,48 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-public class GenerateReportServiceImpl implements GenerateReportService{
+public class GenerateReportServiceImpl implements GenerateReportService {
     @Override
     public void generate(String imageFileName, String reportName) {
         UsefulTesseract ocr = new UsefulTesseract();
         ocr.scanTextWithImage(imageFileName);
         String res = ocr.getResult();
-        DocumentEntity entity = fillDocType(res);
+        DocumentEntity entity = getEntityByType(res);
         entity.calculateDocument(reportName);
     }
 
-    private DocumentEntity fillDocType(String text) {
+    @Override
+    public void generate(List<String> imageParts, String reportName) {
+        UsefulTesseract ocr = new UsefulTesseract();
+        String res="";
+        for(String part : imageParts){
+            ocr.scanTextWithImage(part);
+            res += ocr.getResult();
+        }
+//        System.out.println(res);
+        DocumentEntity entity = getEntityByType(res);
+        entity.calculateDocument(reportName);
+    }
+
+    private DocumentEntity getEntityByType(String text) {
+        StringTokenizer st = new StringTokenizer(text, "\n");
+        AbstractDocumentType documentType = null;
+        ArrayList<String> rows = new ArrayList<>();
+        while (st.hasMoreTokens()) {
+            rows.add(st.nextToken());
+        }
+        for (int i = 0; i < rows.size(); i++) {
+            documentType = DocumentTypeLinker.INSTANCE.getDocTypeByName(rows.get(i));
+            if (documentType instanceof CafeMegapolisDT) {
+                return fillMegapolisDocType(text);
+            } else if (documentType instanceof MarketGrozdDT) {
+                throw new IllegalArgumentException("IN BUILD");
+            }
+        }
+        throw new IllegalArgumentException("Unique document type");
+    }
+
+    private DocumentEntity fillMegapolisDocType(String text) {
         StringTokenizer st = new StringTokenizer(text, "\n");
         AbstractDocumentType documentType = null;
         ArrayList<String> rows = new ArrayList<>();
@@ -39,9 +67,9 @@ public class GenerateReportServiceImpl implements GenerateReportService{
                         String date = rows.get(i).substring(0, 8);
                         documentType.setDate(date);
                     }
-                    if (i > 5 && !rows.get(i).contains("ИТОГ")) {//parse product items
+                    if (i > 5 && !(rows.get(i).contains("ИТОГ") || rows.get(i).contains("итог"))) {//parse product items
                         ProductItem item = null;
-                        if (rows.get(i + 1).contains("Код")) {//product name
+                        if (rows.get(i + 1).contains("Код") || rows.get(i + 1).contains("Кол")) {//product name
                             item = new ProductItem();
                             item.setName(rows.get(i).substring(2, rows.get(i).length()));
                         }
@@ -57,7 +85,7 @@ public class GenerateReportServiceImpl implements GenerateReportService{
                             products.add(item);
                         }
                     }
-                    if (rows.get(i).contains("ИТОГ")) {//parse main sum
+                    if (rows.get(i).contains("ИТОГ") || rows.get(i).contains("итог")) {//parse main sum
                         documentType.setProductItemList(products);
                         documentType.setSum(parseNumeral(rows.get(i + 1), 10));
                         break;

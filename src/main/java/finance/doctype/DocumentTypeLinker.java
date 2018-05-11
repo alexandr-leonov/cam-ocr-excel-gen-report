@@ -9,6 +9,7 @@ public class DocumentTypeLinker {
 
     static {
         linkMap.put("МЕГАПОЛИС",DocType.MEGAPOLIS);
+        linkMap.put("ОПЛАТЫ",DocType.GROZD);
     }
 
     public AbstractDocumentType getDocTypeByName(String name){
@@ -23,7 +24,8 @@ public class DocumentTypeLinker {
     }
 
     enum DocType{
-        MEGAPOLIS(new CafeMegapolisDT());
+        MEGAPOLIS(new CafeMegapolisDT()),
+        GROZD(new MarketGrozdDT());
 
         private AbstractDocumentType docType;
 

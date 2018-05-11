@@ -1,4 +1,6 @@
 import finance.camera.PrepareImage;
+import finance.core.GenerateReportService;
+import finance.core.GenerateReportServiceImpl;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -6,6 +8,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public class TestPrepareImage {
     private final static Logger LOGGER = Logger.getLogger(TestPrepareImage.class);
@@ -21,9 +24,13 @@ public class TestPrepareImage {
         img.createSnippingImage("D:\\2311y.jpg",0,0,170,45);
     }
 
-    @Ignore
+    @Test
     public void getAllRowsOfImage() throws IOException {
-        LOGGER.info(img.splitImageToRows("D:\\2311.jpg", 45));
+        img = new PrepareImage(new File("D:\\2312.jpg"));
+        List<String> parts = img.splitImageToRows("D:\\2312.jpg", (int) img.getSourceImageHeigh() / 2);
+        LOGGER.info(parts);
+        GenerateReportService service = new GenerateReportServiceImpl();
+        service.generate(parts,"report");
     }
 
     @Test
