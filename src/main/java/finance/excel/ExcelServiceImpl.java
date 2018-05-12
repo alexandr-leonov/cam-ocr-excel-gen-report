@@ -1,8 +1,8 @@
 package finance.excel;
 
 import org.apache.log4j.Logger;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,7 +17,7 @@ public class ExcelServiceImpl implements ExcelService {
 
     @Override
     public void writeIntoExcelDocument(Collection<ExcelDataStructure> fields, String reportName) {
-        Workbook book = new HSSFWorkbook();
+        Workbook book = new XSSFWorkbook();
         Sheet sheet = book.createSheet("Finance report");
         int rowCounter = 0;
         int numberCostColumn = 0;
@@ -43,8 +43,7 @@ public class ExcelServiceImpl implements ExcelService {
         Row row = sheet.createRow(rowCounter);
         calculateSum(row,numberCostColumn);
         try {
-            //generate report in EXCEL 2003 format
-            FileOutputStream fos = new FileOutputStream(reportName + ".xls", true);
+            FileOutputStream fos = new FileOutputStream(reportName + ".xlsx", true);
             book.write(fos);
             fos.close();
         } catch (IOException e) {
@@ -55,14 +54,10 @@ public class ExcelServiceImpl implements ExcelService {
 
     @Override
     public void updateExcelDocument(Collection<ExcelDataStructure> fields, String reportName) {
-        File file = new File("report"+".xls");
-        // Read XSL file
-        FileInputStream inputStream = null;
+        File file = new File("report"+".xlsx");
         try {
-            inputStream = new FileInputStream(file);
-            // Get the workbook instance for XLS file
-            Workbook workbook = new HSSFWorkbook(inputStream);
-            // Get first sheet from the workbook
+            FileInputStream inputStream = new FileInputStream(file);
+            Workbook workbook = new XSSFWorkbook(inputStream);
             Sheet sheet = workbook.getSheet("Finance report");
             maxRowNumber = sheet.getLastRowNum();
             inputStream.close();
@@ -80,7 +75,6 @@ public class ExcelServiceImpl implements ExcelService {
             Row row = sheet.createRow(rowCounter);
             ArrayList<Object> keys = new ArrayList<Object>(field.getExcelField().keySet());
             for (int j = 0; j < field.getColumnValues().length; j++) {
-                sheet.autoSizeColumn(j);
                 Cell cell = row.createCell(j);
                 String value = field.getExcelField().values()
                         .toArray()[keys.indexOf(field.getColumnValues()[j])].toString();
@@ -92,13 +86,13 @@ public class ExcelServiceImpl implements ExcelService {
                 } else {
                     cell.setCellValue(value);
                 }
+                cell.getSheet().autoSizeColumn(j);
             }
             rowCounter++;
         }
         Row row = sheet.createRow(rowCounter);
         calculateSum(row,numberCostColumn);
         try {
-            //generate report in EXCEL 2003 format
             FileOutputStream fos = new FileOutputStream(file);
             book.write(fos);
             fos.close();
@@ -110,7 +104,7 @@ public class ExcelServiceImpl implements ExcelService {
 
     private void calculateSum(Row row,int columnNumber){
         Cell cell = row.createCell(columnNumber, CellType.FORMULA);
-        String nameCell=cell.getAddress().formatAsString().replaceAll("\\d","");
+        String nameCell=cell.getAddress().formatAsString().replaceAll("\\d", "");
         String startCell = (new StringBuilder(nameCell).append(1)).toString();
         String endCell = (new StringBuilder(nameCell).append(row.getRowNum())).toString();
         cell.setCellFormula("SUM("+startCell+":"+endCell+")");

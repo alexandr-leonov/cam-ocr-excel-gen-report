@@ -50,7 +50,7 @@ public class CafeMegapolisDT extends AbstractDocumentType {
         for (ExcelDataStructure structure : fullData) {
             array.add(structure);
         }
-        if(new File(reportName+".xls").exists()){
+        if(new File(reportName+".xlsx").exists()){
             service.updateExcelDocument(array,reportName);
         } else {
             service.writeIntoExcelDocument(array, reportName);
