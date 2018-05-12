@@ -32,7 +32,7 @@ public class TestPrepareImage {
         service.generate(parts,"report");
     }
 
-    @Test
+    @Ignore
     public void getSourceImageSize(){
         LOGGER.info("X=" + img.getSourceImageWidth() + " Y="+img.getSourceImageHeigh());
     }

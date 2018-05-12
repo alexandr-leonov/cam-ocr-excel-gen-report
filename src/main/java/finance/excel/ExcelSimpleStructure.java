@@ -2,17 +2,18 @@ package finance.excel;
 
 
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ExcelSimpleStructure implements ExcelDataStructure{
-    private Map<ReportColumnStructure,String> map = new HashMap<ReportColumnStructure,String>();
+    private Map<ReportColumnStructure,String> map = new LinkedHashMap<>();
 
     @Override
     public void setDataToExcelField(Collection<?> objects) {
         if(objects.isEmpty()) throw new NullPointerException("Collection is empty!");
-        for (int i = 0; i<ReportColumnStructure.values().length;i++)
-            map.put(ReportColumnStructure.values()[i], (String) objects.toArray()[i]);
+        for (int i = 0; i<ReportColumnStructure.getValues().length;i++) {
+            map.put(ReportColumnStructure.getValues()[i], (String) objects.toArray()[i]);
+        }
     }
 
     @Override
@@ -22,6 +23,6 @@ public class ExcelSimpleStructure implements ExcelDataStructure{
 
     @Override
     public Object[] getColumnValues() {
-        return ReportColumnStructure.values();
+        return ReportColumnStructure.getValues();
     }
 }

@@ -2,12 +2,12 @@ package finance.excel;
 
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -20,45 +20,33 @@ public class ExcelServiceImpl implements ExcelService {
         Workbook book = new HSSFWorkbook();
         Sheet sheet = book.createSheet("Finance report");
         int rowCounter = 0;
-//        float summ = 0;
-//        int numberCostColumn = -1;
+        int numberCostColumn = 0;
         for (ExcelDataStructure field : fields) {
             Row row = sheet.createRow(rowCounter);
             ArrayList<Object> keys = new ArrayList<Object>(field.getExcelField().keySet());
             for (int j = 0; j < field.getColumnValues().length; j++) {
                 sheet.autoSizeColumn(j);
                 Cell cell = row.createCell(j);
-                cell.setCellValue(field.getExcelField().values()
-                        .toArray()[keys.indexOf(field.getColumnValues()[j])]
-                        .toString());
-//                if (ReportColumnStructure.COST_GIFT.equals(field.getColumnValues()[j])) {
-//                    numberCostColumn = j;
-//                }
+                String value = field.getExcelField().values()
+                        .toArray()[keys.indexOf(field.getColumnValues()[j])].toString();
+                if (ReportColumnStructure.COST_GIFT.equals(field.getColumnValues()[j])) {
+                    cell.setCellType(CellType.NUMERIC);
+                    numberCostColumn=j;
+                    float cost = Float.parseFloat(value);
+                    cell.setCellValue(cost);
+                } else {
+                    cell.setCellValue(value);
+                }
             }
-//            if (numberCostColumn != -1) {
-//                summ += Float.parseFloat(field.getExcelField().values()
-//                        .toArray()[keys.indexOf(field.getColumnValues()[numberCostColumn])].toString());
-//            }
             rowCounter++;
         }
-//        if (numberCostColumn != -1) {
-//            Row row = sheet.createRow(rowCounter);
-//            Cell cell = row.createCell((numberCostColumn > 0) ? numberCostColumn - 1 : numberCostColumn + 1);
-//            cell.setCellValue((numberCostColumn > 0) ? "Итог:" : "<- Итог");
-//            Cell cell2 = row.createCell(numberCostColumn);
-//            cell2.setCellValue(summ);
-//        }
-        FileOutputStream fos = null;
+        Row row = sheet.createRow(rowCounter);
+        calculateSum(row,numberCostColumn);
         try {
             //generate report in EXCEL 2003 format
-            fos = new FileOutputStream(reportName + ".xls", true);
-
-        } catch (FileNotFoundException e) {
-            LOGGER.error("", e);
-        }
-        try {
+            FileOutputStream fos = new FileOutputStream(reportName + ".xls", true);
             book.write(fos);
-            book.close();
+            fos.close();
         } catch (IOException e) {
             LOGGER.error("", e);
         }
@@ -76,7 +64,7 @@ public class ExcelServiceImpl implements ExcelService {
             Workbook workbook = new HSSFWorkbook(inputStream);
             // Get first sheet from the workbook
             Sheet sheet = workbook.getSheet("Finance report");
-            maxRowNumber = sheet.getLastRowNum()+1;
+            maxRowNumber = sheet.getLastRowNum();
             inputStream.close();
             appendDataToExcelDocument(fields, workbook, file);
         } catch (IOException e) {
@@ -84,30 +72,47 @@ public class ExcelServiceImpl implements ExcelService {
         }
     }
 
-    public void appendDataToExcelDocument(Collection<ExcelDataStructure> fields, Workbook book,File file) {
+    private void appendDataToExcelDocument(Collection<ExcelDataStructure> fields, Workbook book,File file) {
         Sheet sheet = book.getSheet("Finance report");
         int rowCounter = maxRowNumber;
+        int numberCostColumn = 0;
         for (ExcelDataStructure field : fields) {
             Row row = sheet.createRow(rowCounter);
             ArrayList<Object> keys = new ArrayList<Object>(field.getExcelField().keySet());
             for (int j = 0; j < field.getColumnValues().length; j++) {
                 sheet.autoSizeColumn(j);
                 Cell cell = row.createCell(j);
-                cell.setCellValue(field.getExcelField().values()
-                        .toArray()[keys.indexOf(field.getColumnValues()[j])]
-                        .toString());
+                String value = field.getExcelField().values()
+                        .toArray()[keys.indexOf(field.getColumnValues()[j])].toString();
+                if (ReportColumnStructure.COST_GIFT.equals(field.getColumnValues()[j])) {
+                    cell.setCellType(CellType.NUMERIC);
+                    numberCostColumn=j;
+                    float cost = Float.parseFloat(value);
+                    cell.setCellValue(cost);
+                } else {
+                    cell.setCellValue(value);
+                }
             }
             rowCounter++;
         }
-        FileOutputStream fos = null;
+        Row row = sheet.createRow(rowCounter);
+        calculateSum(row,numberCostColumn);
         try {
             //generate report in EXCEL 2003 format
-            fos = new FileOutputStream(file);
+            FileOutputStream fos = new FileOutputStream(file);
             book.write(fos);
             fos.close();
         } catch (IOException e) {
             LOGGER.error("", e);
         }
         LOGGER.info("Report was updated successfully!");
+    }
+
+    private void calculateSum(Row row,int columnNumber){
+        Cell cell = row.createCell(columnNumber, CellType.FORMULA);
+        String nameCell=cell.getAddress().formatAsString().replaceAll("\\d","");
+        String startCell = (new StringBuilder(nameCell).append(1)).toString();
+        String endCell = (new StringBuilder(nameCell).append(row.getRowNum())).toString();
+        cell.setCellFormula("SUM("+startCell+":"+endCell+")");
     }
 }

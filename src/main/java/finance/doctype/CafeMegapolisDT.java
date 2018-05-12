@@ -37,9 +37,9 @@ public class CafeMegapolisDT extends AbstractDocumentType {
         Collection<String> collection = new ArrayList<String>();
         collection.add(getDate());
         collection.add(NAME);
-        collection.add(String.valueOf(productItem.getCost()));
         collection.add(productItem.getName());
         collection.add(String.valueOf(productItem.getCount()));
+        collection.add(String.valueOf(productItem.getCost()));
         structure.setDataToExcelField(collection);
         return structure;
     }
