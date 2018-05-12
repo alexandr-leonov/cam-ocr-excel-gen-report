@@ -21,8 +21,8 @@ public class GenerateReportServiceImpl implements GenerateReportService {
     @Override
     public void generate(List<String> imageParts, String reportName) {
         UsefulTesseract ocr = new UsefulTesseract();
-        String res="";
-        for(String part : imageParts){
+        String res = "";
+        for (String part : imageParts) {
             ocr.scanTextWithImage(part);
             res += ocr.getResult();
         }
@@ -37,12 +37,12 @@ public class GenerateReportServiceImpl implements GenerateReportService {
         while (st.hasMoreTokens()) {
             rows.add(st.nextToken());
         }
-        for (int i = 0; i < rows.size(); i++) {
-            documentType = DocumentTypeLinker.INSTANCE.getDocTypeByName(rows.get(i));
+        for (String row : rows) {
+            documentType = DocumentTypeLinker.INSTANCE.getDocTypeByName(row);
             if (documentType instanceof CafeMegapolisDT) {
                 return fillMegapolisDocType(text);
             } else if (documentType instanceof MarketGrozdDT) {
-                throw new IllegalArgumentException("IN BUILD");
+                return fillGrozdDocType(text);
             }
         }
         throw new IllegalArgumentException("Unique document type");
@@ -92,6 +92,57 @@ public class GenerateReportServiceImpl implements GenerateReportService {
                 }
             }
         }
+        return documentType;
+    }
+
+    private DocumentEntity fillGrozdDocType(String text) {
+        StringTokenizer st = new StringTokenizer(text, "\n");
+        AbstractDocumentType documentType = null;
+        ArrayList<String> rows = new ArrayList<>();
+        while (st.hasMoreTokens()) {
+            rows.add(st.nextToken());
+        }
+        List<ProductItem> products = new ArrayList<>();
+
+        documentType = DocumentTypeLinker.INSTANCE.getDocTypeByName("ОПЛАТЫ");
+        String cost = "";
+        String count = "";
+        for (int i = 0; i < rows.size(); i++) {
+            if (i == 5) {//parse date
+                String date = rows.get(i).substring(9, 19).replaceAll(" ", "\\.");
+                documentType.setDate(date);
+            }
+            if ((i > 5 && i % 2 == 0) && !rows.get(i).contains("ОПЛАТЫ")) {//parse product items
+                ProductItem item = new ProductItem();
+                item.setName(rows.get(i));
+                String str = rows.get(i + 1);
+                for (int u = str.length() - 1; u >= 0; u--) {
+                    int j = -1;
+                    //cost have format 888.88 - max 6 numbers (for my small byes)
+                    if (str.toCharArray()[u] != ' ') {
+                        if (u >= str.length() - 6) {
+                            cost += str.toCharArray()[u];
+                            j = u;
+                        }
+                        if (u > str.length() - 9 && j != u) {
+                            count += str.toCharArray()[u];
+                        }
+                    }
+                }
+                StringBuilder genCost = new StringBuilder(cost).reverse();
+                if (!genCost.toString().contains(".")) {
+                    genCost.insert(cost.length() - 2, ".");
+                }
+                cost = genCost.toString();
+                System.out.println(i + " - " + cost);
+                item.setCost(Float.parseFloat(cost));
+                item.setCount(Float.parseFloat(new StringBuilder(count).reverse().toString()));
+                products.add(item);
+            }
+            cost = count = "";
+            if (rows.get(i).contains("ОПЛАТЫ")) break;
+        }
+        documentType.setProductItemList(products);
         return documentType;
     }
 

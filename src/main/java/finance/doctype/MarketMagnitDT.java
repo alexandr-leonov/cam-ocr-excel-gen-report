@@ -5,9 +5,9 @@ import org.apache.log4j.Logger;
 
 import java.text.ParseException;
 
-public class MarketGrozdDT extends AbstractDocumentType{
-    private final static Logger LOGGER = Logger.getLogger(MarketGrozdDT.class);
-    private final static String NAME = "Магазин ГРОЗДЬ";
+public class MarketMagnitDT extends AbstractDocumentType {
+    private final static Logger LOGGER = Logger.getLogger(MarketMagnitDT.class);
+    private final static String NAME = "Магазин Магнит";
 
     @Override
     public void calculateDocument(String reportName) {
@@ -23,6 +23,6 @@ public class MarketGrozdDT extends AbstractDocumentType{
 
     @Override
     public String toString() {
-        return "GROZD MARKET CHECK DOCUMENT TYPE";
+        return "MAGNIT MARKET CHECK DOCUMENT TYPE";
     }
 }

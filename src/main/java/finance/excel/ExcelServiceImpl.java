@@ -13,63 +13,33 @@ import java.util.Collection;
 
 public class ExcelServiceImpl implements ExcelService {
     private final static Logger LOGGER = Logger.getLogger(ExcelServiceImpl.class);
-    private int maxRowNumber;
 
     @Override
     public void writeIntoExcelDocument(Collection<ExcelDataStructure> fields, String reportName) {
+        File file = new File(reportName + ".xlsx");
         Workbook book = new XSSFWorkbook();
         Sheet sheet = book.createSheet("Finance report");
-        int rowCounter = 0;
-        int numberCostColumn = 0;
-        for (ExcelDataStructure field : fields) {
-            Row row = sheet.createRow(rowCounter);
-            ArrayList<Object> keys = new ArrayList<Object>(field.getExcelField().keySet());
-            for (int j = 0; j < field.getColumnValues().length; j++) {
-                sheet.autoSizeColumn(j);
-                Cell cell = row.createCell(j);
-                String value = field.getExcelField().values()
-                        .toArray()[keys.indexOf(field.getColumnValues()[j])].toString();
-                if (ReportColumnStructure.COST_GIFT.equals(field.getColumnValues()[j])) {
-                    cell.setCellType(CellType.NUMERIC);
-                    numberCostColumn=j;
-                    float cost = Float.parseFloat(value);
-                    cell.setCellValue(cost);
-                } else {
-                    cell.setCellValue(value);
-                }
-            }
-            rowCounter++;
-        }
-        Row row = sheet.createRow(rowCounter);
-        calculateSum(row,numberCostColumn);
-        try {
-            FileOutputStream fos = new FileOutputStream(reportName + ".xlsx", true);
-            book.write(fos);
-            fos.close();
-        } catch (IOException e) {
-            LOGGER.error("", e);
-        }
+        addDataToExcelDocument(book,sheet,fields,0,file);
         LOGGER.info("Report was created successfully!");
     }
 
     @Override
     public void updateExcelDocument(Collection<ExcelDataStructure> fields, String reportName) {
-        File file = new File("report"+".xlsx");
+        File file = new File(reportName+".xlsx");
         try {
             FileInputStream inputStream = new FileInputStream(file);
             Workbook workbook = new XSSFWorkbook(inputStream);
             Sheet sheet = workbook.getSheet("Finance report");
-            maxRowNumber = sheet.getLastRowNum();
             inputStream.close();
-            appendDataToExcelDocument(fields, workbook, file);
+            addDataToExcelDocument(workbook,sheet,fields,sheet.getLastRowNum(),file);
+            LOGGER.info("Report was updated successfully!");
         } catch (IOException e) {
             LOGGER.error("Error in reading document",e);
         }
     }
 
-    private void appendDataToExcelDocument(Collection<ExcelDataStructure> fields, Workbook book,File file) {
-        Sheet sheet = book.getSheet("Finance report");
-        int rowCounter = maxRowNumber;
+    private void addDataToExcelDocument(Workbook book, Sheet sheet, Collection<ExcelDataStructure> fields, int startRowIndex,File file){
+        int rowCounter = startRowIndex;
         int numberCostColumn = 0;
         for (ExcelDataStructure field : fields) {
             Row row = sheet.createRow(rowCounter);
@@ -99,7 +69,6 @@ public class ExcelServiceImpl implements ExcelService {
         } catch (IOException e) {
             LOGGER.error("", e);
         }
-        LOGGER.info("Report was updated successfully!");
     }
 
     private void calculateSum(Row row,int columnNumber){
