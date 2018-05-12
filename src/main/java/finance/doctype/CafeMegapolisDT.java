@@ -8,6 +8,7 @@ import finance.excel.ExcelServiceImpl;
 import finance.excel.ExcelSimpleStructure;
 import org.apache.log4j.Logger;
 
+import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,7 +50,11 @@ public class CafeMegapolisDT extends AbstractDocumentType {
         for (ExcelDataStructure structure : fullData) {
             array.add(structure);
         }
-        service.writeIntoExcelDocument(array, reportName);
+        if(new File(reportName+".xls").exists()){
+            service.updateExcelDocument(array,reportName);
+        } else {
+            service.writeIntoExcelDocument(array, reportName);
+        }
     }
 
     @Override

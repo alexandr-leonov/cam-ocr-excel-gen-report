@@ -5,7 +5,6 @@ import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;

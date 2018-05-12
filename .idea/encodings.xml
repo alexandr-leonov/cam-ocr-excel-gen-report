@@ -20,6 +20,7 @@
     <file url="file://$PROJECT_DIR$/src/main/java/finance/ocr/UsefulTesseract.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/test/java/TestAddFieldToExcel.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/test/java/TestDocumentTypes.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/test/java/TestExcelUpdate.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/test/java/TestOCR.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/test/java/TestPrepareExcelField.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/test/java/TestPrepareImage.java" charset="UTF-8" />

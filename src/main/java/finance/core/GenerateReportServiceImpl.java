@@ -26,7 +26,6 @@ public class GenerateReportServiceImpl implements GenerateReportService {
             ocr.scanTextWithImage(part);
             res += ocr.getResult();
         }
-//        System.out.println(res);
         DocumentEntity entity = getEntityByType(res);
         entity.calculateDocument(reportName);
     }
