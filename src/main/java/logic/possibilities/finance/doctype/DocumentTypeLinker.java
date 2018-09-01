@@ -1,4 +1,4 @@
-package logic.finance.doctype;
+package logic.possibilities.finance.doctype;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

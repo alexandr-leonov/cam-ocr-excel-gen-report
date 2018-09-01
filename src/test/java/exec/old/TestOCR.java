@@ -1,7 +1,7 @@
 package exec.old;
 
-import logic.finance.service.GenerateReportService;
-import logic.finance.service.GenerateReportServiceImpl;
+import logic.possibilities.finance.service.GenerateReportService;
+import logic.possibilities.finance.service.GenerateReportServiceImpl;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 

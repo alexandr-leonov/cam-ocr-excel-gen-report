@@ -1,4 +1,4 @@
-package logic.finance.service;
+package logic.possibilities.finance.service;
 
 import java.util.List;
 

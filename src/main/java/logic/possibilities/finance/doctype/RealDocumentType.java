@@ -1,6 +1,6 @@
-package logic.finance.doctype;
+package logic.possibilities.finance.doctype;
 
-import logic.finance.doctype.item.ProductItem;
+import logic.possibilities.finance.doctype.item.ProductItem;
 import logic.core.excel.ExcelDataStructure;
 import logic.core.excel.ExcelService;
 import logic.core.excel.ExcelServiceImpl;

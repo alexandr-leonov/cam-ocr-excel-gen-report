@@ -1,8 +1,8 @@
 package exec.old;
 
 import logic.core.image.PrepareImage;
-import logic.finance.service.GenerateReportService;
-import logic.finance.service.GenerateReportServiceImpl;
+import logic.possibilities.finance.service.GenerateReportService;
+import logic.possibilities.finance.service.GenerateReportServiceImpl;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Ignore;
