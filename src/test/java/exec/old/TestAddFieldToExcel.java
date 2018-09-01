@@ -1,9 +1,9 @@
-package old;
+package exec.old;
 
-import finance.excel.ExcelDataStructure;
-import finance.excel.ExcelService;
-import finance.excel.ExcelServiceImpl;
-import finance.excel.ExcelSimpleStructure;
+import logic.core.excel.ExcelDataStructure;
+import logic.core.excel.ExcelService;
+import logic.core.excel.ExcelServiceImpl;
+import logic.core.excel.ExcelSimpleStructure;
 import org.junit.Before;
 import org.junit.Test;
 

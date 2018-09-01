@@ -1,4 +1,4 @@
-package finance.core;
+package logic.finance.service;
 
 import java.util.List;
 

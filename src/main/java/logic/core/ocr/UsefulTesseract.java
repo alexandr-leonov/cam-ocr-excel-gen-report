@@ -1,4 +1,4 @@
-package ocr;
+package logic.core.ocr;
 
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;

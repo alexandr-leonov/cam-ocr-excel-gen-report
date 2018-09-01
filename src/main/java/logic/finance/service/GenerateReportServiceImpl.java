@@ -1,8 +1,10 @@
-package finance.core;
+package logic.finance.service;
 
-import finance.doctype.*;
-import finance.doctype.item.ProductItem;
-import ocr.UsefulTesseract;
+import logic.core.ocr.UsefulTesseract;
+import logic.finance.doctype.DocumentEntity;
+import logic.finance.doctype.DocumentTypeLinker;
+import logic.finance.doctype.RealDocumentType;
+import logic.finance.doctype.item.ProductItem;
 
 import java.util.ArrayList;
 import java.util.List;

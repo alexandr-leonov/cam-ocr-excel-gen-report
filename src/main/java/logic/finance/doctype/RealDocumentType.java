@@ -1,10 +1,10 @@
-package finance.doctype;
+package logic.finance.doctype;
 
-import finance.doctype.item.ProductItem;
-import finance.excel.ExcelDataStructure;
-import finance.excel.ExcelService;
-import finance.excel.ExcelServiceImpl;
-import finance.excel.ExcelSimpleStructure;
+import logic.finance.doctype.item.ProductItem;
+import logic.core.excel.ExcelDataStructure;
+import logic.core.excel.ExcelService;
+import logic.core.excel.ExcelServiceImpl;
+import logic.core.excel.ExcelSimpleStructure;
 import org.apache.log4j.Logger;
 
 import java.io.File;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class RealDocumentType implements DocumentType, DocumentEntity {
+public class RealDocumentType implements DocumentEntity {
     private String date;
     private float sum;
     private Logger LOGGER = Logger.getLogger(this.getClass());

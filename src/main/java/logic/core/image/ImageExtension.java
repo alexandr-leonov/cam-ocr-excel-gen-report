@@ -1,4 +1,4 @@
-package camera;
+package logic.core.image;
 
 public enum ImageExtension {
     PNG("png"),

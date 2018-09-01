@@ -1,4 +1,4 @@
-package finance.excel;
+package logic.core.excel;
 
 public enum ReportColumnStructure {
     SHOPPING_DATE,

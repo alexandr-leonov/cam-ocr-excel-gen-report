@@ -1,4 +1,4 @@
-package finance.excel;
+package logic.core.excel;
 
 
 import java.util.Collection;

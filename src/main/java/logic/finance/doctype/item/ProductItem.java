@@ -1,4 +1,4 @@
-package finance.doctype.item;
+package logic.finance.doctype.item;
 
 public class ProductItem {
     private String name;

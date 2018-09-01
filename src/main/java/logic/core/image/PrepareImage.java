@@ -1,4 +1,4 @@
-package camera;
+package logic.core.image;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

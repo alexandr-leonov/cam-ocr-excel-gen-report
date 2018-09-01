@@ -1,6 +1,6 @@
-package prot;
+package exec.prot;
 
-import ocr.UsefulTesseract;
+import logic.core.ocr.UsefulTesseract;
 import org.junit.Test;
 
 public class TestSimpleOCR {

@@ -1,4 +1,4 @@
-package finance.excel;
+package logic.core.excel;
 
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.*;

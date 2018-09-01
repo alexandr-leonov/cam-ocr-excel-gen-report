@@ -1,12 +1,13 @@
-package old;
+package exec.old;
 
-import camera.PrepareImage;
-import finance.core.GenerateReportService;
-import finance.core.GenerateReportServiceImpl;
+import logic.core.image.PrepareImage;
+import logic.finance.service.GenerateReportService;
+import logic.finance.service.GenerateReportServiceImpl;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;

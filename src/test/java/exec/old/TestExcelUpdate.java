@@ -1,6 +1,9 @@
-package old;
+package exec.old;
 
-import finance.excel.*;
+import logic.core.excel.ExcelDataStructure;
+import logic.core.excel.ExcelService;
+import logic.core.excel.ExcelServiceImpl;
+import logic.core.excel.ExcelSimpleStructure;
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -10,7 +13,10 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
