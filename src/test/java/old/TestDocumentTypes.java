@@ -1,3 +1,5 @@
+package old;
+
 import finance.doctype.DocumentType;
 import finance.doctype.DocumentTypeLinker;
 import org.apache.log4j.Logger;

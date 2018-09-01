@@ -9,10 +9,10 @@ public class DocumentTypeLinker {
 
     static {
         linkMap.put("МЕГАПОЛИС",DocType.MEGAPOLIS);
-        linkMap.put("ОПЛАТЫ",DocType.GROZD);
+        linkMap.put("ГРОЗДЬ",DocType.GROZD);
     }
 
-    public AbstractDocumentType getDocTypeByName(String name){
+    public RealDocumentType getDocTypeByName(String name){
         String value=null;
         for(String key :linkMap.keySet()){
             if(name.contains(key)){
@@ -23,17 +23,17 @@ public class DocumentTypeLinker {
         return linkMap.get(value).getDocType();
     }
 
-    enum DocType{
-        MEGAPOLIS(new CafeMegapolisDT()),
-        GROZD(new MarketGrozdDT());
+    public enum DocType{
+        MEGAPOLIS(new RealDocumentType("MEGAPOLIS")),
+        GROZD(new RealDocumentType("GROZD"));
 
-        private AbstractDocumentType docType;
+        private RealDocumentType docType;
 
-        DocType(AbstractDocumentType docType){
+        DocType(RealDocumentType docType){
             this.docType = docType;
         }
 
-        public AbstractDocumentType getDocType(){
+        public RealDocumentType getDocType(){
             return docType;
         }
     }

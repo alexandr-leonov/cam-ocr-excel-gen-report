@@ -1,4 +1,4 @@
-package finance.camera;
+package camera;
 
 public enum ImageExtension {
     PNG("png"),

@@ -5,6 +5,7 @@ import finance.excel.ExcelDataStructure;
 import finance.excel.ExcelService;
 import finance.excel.ExcelServiceImpl;
 import finance.excel.ExcelSimpleStructure;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.text.ParseException;
@@ -12,12 +13,31 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class AbstractDocumentType implements DocumentType, DocumentEntity {
+public class RealDocumentType implements DocumentType, DocumentEntity {
     private String date;
     private float sum;
+    private Logger LOGGER = Logger.getLogger(this.getClass());
 
-    protected List<ExcelDataStructure> fullData = new ArrayList<>();
-    protected List<ProductItem> productItems= new ArrayList<>();
+    private List<ExcelDataStructure> fullData = new ArrayList<>();
+    private List<ProductItem> productItems= new ArrayList<>();
+    private String marketName;
+
+    public RealDocumentType(String marketName){
+        this.marketName = marketName;
+    }
+
+    @Override
+    public void calculateDocument(String reportName) {
+        try {
+            for (ProductItem product : productItems) {
+                String NAME = marketName;
+                fullData.add(prepareStructure(product, NAME));
+            }
+            writeToExcel(reportName);
+        } catch (ParseException e) {
+            LOGGER.error("Exception preparing report structure.", e);
+        }
+    }
 
     public List<ProductItem> getProductItemList() {
         return productItems;
@@ -66,5 +86,13 @@ public abstract class AbstractDocumentType implements DocumentType, DocumentEnti
 
     public String getDate() {
         return date;
+    }
+
+    public String getMarketName() {
+        return marketName;
+    }
+
+    public void setMarketName(String marketName) {
+        this.marketName = marketName;
     }
 }

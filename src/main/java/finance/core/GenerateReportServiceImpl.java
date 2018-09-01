@@ -2,7 +2,7 @@ package finance.core;
 
 import finance.doctype.*;
 import finance.doctype.item.ProductItem;
-import finance.ocr.UsefulTesseract;
+import ocr.UsefulTesseract;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,28 +21,26 @@ public class GenerateReportServiceImpl implements GenerateReportService {
     @Override
     public void generate(List<String> imageParts, String reportName) {
         UsefulTesseract ocr = new UsefulTesseract();
-        String res = "";
+        StringBuilder res = new StringBuilder();
         for (String part : imageParts) {
             ocr.scanTextWithImage(part);
-            res += ocr.getResult();
+            res.append(ocr.getResult());
         }
-        DocumentEntity entity = getEntityByType(res);
+        DocumentEntity entity = getEntityByType(res.toString());
         entity.calculateDocument(reportName);
     }
 
     private DocumentEntity getEntityByType(String text) {
         StringTokenizer st = new StringTokenizer(text, "\n");
-        AbstractDocumentType documentType = null;
+        RealDocumentType documentType = null;
         ArrayList<String> rows = new ArrayList<>();
         while (st.hasMoreTokens()) {
             rows.add(st.nextToken());
         }
         for (String row : rows) {
             documentType = DocumentTypeLinker.INSTANCE.getDocTypeByName(row);
-            if (documentType instanceof CafeMegapolisDT) {
+            if (DocumentTypeLinker.DocType.MEGAPOLIS.name().equals(documentType.getMarketName())) {
                 return fillMegapolisDocType(text);
-            } else if (documentType instanceof MarketGrozdDT) {
-                return fillGrozdDocType(text);
             }
         }
         throw new IllegalArgumentException("Unique document type");
@@ -50,7 +48,7 @@ public class GenerateReportServiceImpl implements GenerateReportService {
 
     private DocumentEntity fillMegapolisDocType(String text) {
         StringTokenizer st = new StringTokenizer(text, "\n");
-        AbstractDocumentType documentType = null;
+        RealDocumentType documentType = null;
         ArrayList<String> rows = new ArrayList<>();
         while (st.hasMoreTokens()) {
             rows.add(st.nextToken());
@@ -61,7 +59,6 @@ public class GenerateReportServiceImpl implements GenerateReportService {
                 documentType = DocumentTypeLinker.INSTANCE.getDocTypeByName(rows.get(i));
             }
             if (documentType != null) {
-                if (documentType instanceof CafeMegapolisDT) {
                     if (i == 4) {//parse date
                         String date = rows.get(i).substring(0, 8);
                         documentType.setDate(date);
@@ -89,75 +86,23 @@ public class GenerateReportServiceImpl implements GenerateReportService {
                         documentType.setSum(parseNumeral(rows.get(i + 1), 10));
                         break;
                     }
-                }
             }
         }
-        return documentType;
-    }
-
-    private DocumentEntity fillGrozdDocType(String text) {
-        StringTokenizer st = new StringTokenizer(text, "\n");
-        AbstractDocumentType documentType = null;
-        ArrayList<String> rows = new ArrayList<>();
-        while (st.hasMoreTokens()) {
-            rows.add(st.nextToken());
-        }
-        List<ProductItem> products = new ArrayList<>();
-
-        documentType = DocumentTypeLinker.INSTANCE.getDocTypeByName("ОПЛАТЫ");
-        String cost = "";
-        String count = "";
-        for (int i = 0; i < rows.size(); i++) {
-            if (i == 5) {//parse date
-                String date = rows.get(i).substring(9, 19).replaceAll(" ", "\\.");
-                documentType.setDate(date);
-            }
-            if ((i > 5 && i % 2 == 0) && !rows.get(i).contains("ОПЛАТЫ")) {//parse product items
-                ProductItem item = new ProductItem();
-                item.setName(rows.get(i));
-                String str = rows.get(i + 1);
-                for (int u = str.length() - 1; u >= 0; u--) {
-                    int j = -1;
-                    //cost have format 888.88 - max 6 numbers (for my small byes)
-                    if (str.toCharArray()[u] != ' ') {
-                        if (u >= str.length() - 6) {
-                            cost += str.toCharArray()[u];
-                            j = u;
-                        }
-                        if (u > str.length() - 9 && j != u) {
-                            count += str.toCharArray()[u];
-                        }
-                    }
-                }
-                StringBuilder genCost = new StringBuilder(cost).reverse();
-                if (!genCost.toString().contains(".")) {
-                    genCost.insert(cost.length() - 2, ".");
-                }
-                cost = genCost.toString();
-                System.out.println(i + " - " + cost);
-                item.setCost(Float.parseFloat(cost));
-                item.setCount(Float.parseFloat(new StringBuilder(count).reverse().toString()));
-                products.add(item);
-            }
-            cost = count = "";
-            if (rows.get(i).contains("ОПЛАТЫ")) break;
-        }
-        documentType.setProductItemList(products);
         return documentType;
     }
 
     private float parseNumeral(String text, int index) {
         String sum = text;
         sum = sum.substring(index, sum.length());
-        String numbers = "";
+        StringBuilder numbers = new StringBuilder();
         for (int j = 1; j < sum.length(); j++) {
             try {
                 Integer.parseInt(String.valueOf(sum.toCharArray()[j]));
-                numbers += sum.toCharArray()[j];
+                numbers.append(sum.toCharArray()[j]);
             } catch (Exception ex) {
             }
         }
-        StringBuilder sb = new StringBuilder(numbers);
+        StringBuilder sb = new StringBuilder(numbers.toString());
         sb.insert(numbers.length() - 2, ".");
         return Float.parseFloat(sb.toString());
     }

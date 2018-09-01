@@ -1,8 +1,10 @@
+package old;
+
 import finance.core.GenerateReportService;
 import finance.core.GenerateReportServiceImpl;
 import finance.doctype.DocumentType;
 import finance.doctype.DocumentTypeLinker;
-import finance.ocr.UsefulTesseract;
+import ocr.UsefulTesseract;
 import org.apache.log4j.Logger;
 import org.junit.Ignore;
 import org.junit.Test;

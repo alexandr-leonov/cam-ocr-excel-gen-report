@@ -1,4 +1,6 @@
-import finance.camera.PrepareImage;
+package old;
+
+import camera.PrepareImage;
 import finance.core.GenerateReportService;
 import finance.core.GenerateReportServiceImpl;
 import org.apache.log4j.Logger;
