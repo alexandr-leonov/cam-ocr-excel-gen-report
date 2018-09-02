@@ -1,7 +1,5 @@
 package logic.core.search;
 
-import com.google.common.io.BaseEncoding;
-
 import java.awt.*;
 import java.io.IOException;
 import java.net.URI;

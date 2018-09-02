@@ -1,11 +1,14 @@
 package exec.prot;
 
-import com.google.common.io.BaseEncoding;
 import logic.core.ocr.UsefulTesseract;
 import logic.core.search.WebSearch;
 import logic.core.search.WebSearchImpl;
 import logic.core.word.WordDocument;
 import logic.core.word.WordDocumentImpl;
+import logic.possibilities.docs.WordDocService;
+import logic.possibilities.docs.WordDocServiceImpl;
+import logic.possibilities.search.WebSearchService;
+import logic.possibilities.search.WebSearchServiceImpl;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -26,15 +29,15 @@ public class TestSimpleOCR {
 
     @Test
     public void writeWordDocument() throws IOException {
-        ocr.scanTextWithImage("D:\\IdeaProjects\\resources\\img002.png",UsefulTesseract.Language.RU.get());
-        WordDocument document = new WordDocumentImpl();
-        document.generate("D:\\IdeaProjects\\resources\\doc002.docx",ocr.getResult());
+        WordDocService service = new WordDocServiceImpl();
+        service.createWordDocument("D:\\IdeaProjects\\resources\\img002.png",
+                "D:\\IdeaProjects\\resources\\newDoc002.docx",
+                UsefulTesseract.Language.RU.get());
     }
 
     @Test
     public void showInBrowser() throws IOException, URISyntaxException {
-        ocr.scanTextWithImage("D:\\IdeaProjects\\resources\\img002.png",UsefulTesseract.Language.RU.get());
-        WebSearch search = new WebSearchImpl();
-        search.runSearchInBrowser(ocr.getResult());
+        WebSearchService service = new WebSearchServiceImpl();
+        service.searchResultInWebBrowser("D:\\IdeaProjects\\resources\\img002.png", UsefulTesseract.Language.RU.get());
     }
 }
