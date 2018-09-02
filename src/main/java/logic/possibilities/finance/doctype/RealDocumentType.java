@@ -43,7 +43,7 @@ public class RealDocumentType implements DocumentEntity {
         return productItems;
     }
 
-    protected ExcelDataStructure prepareStructure(ProductItem productItem,String marketName) throws ParseException {
+    private ExcelDataStructure prepareStructure(ProductItem productItem, String marketName) throws ParseException {
         ExcelDataStructure structure = new ExcelSimpleStructure();
         Collection<String> collection = new ArrayList<>();
         collection.add(getDate());
@@ -55,12 +55,9 @@ public class RealDocumentType implements DocumentEntity {
         return structure;
     }
 
-    protected void writeToExcel(String reportName) {
+    private void writeToExcel(String reportName) {
         ExcelService service = new ExcelServiceImpl();
-        Collection<ExcelDataStructure> array = new ArrayList<>();
-        for (ExcelDataStructure structure : fullData) {
-            array.add(structure);
-        }
+        Collection<ExcelDataStructure> array = new ArrayList<>(fullData);
         if(new File(reportName+".xlsx").exists()){
             service.updateExcelDocument(array,reportName);
         } else {

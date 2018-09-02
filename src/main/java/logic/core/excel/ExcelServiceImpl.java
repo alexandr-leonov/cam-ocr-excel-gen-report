@@ -74,8 +74,8 @@ public class ExcelServiceImpl implements ExcelService {
     private void calculateSum(Row row,int columnNumber){
         Cell cell = row.createCell(columnNumber, CellType.FORMULA);
         String nameCell=cell.getAddress().formatAsString().replaceAll("\\d", "");
-        String startCell = (new StringBuilder(nameCell).append(1)).toString();
-        String endCell = (new StringBuilder(nameCell).append(row.getRowNum())).toString();
+        String startCell = nameCell + 1;
+        String endCell = nameCell + row.getRowNum();
         cell.setCellFormula("SUM("+startCell+":"+endCell+")");
     }
 }
