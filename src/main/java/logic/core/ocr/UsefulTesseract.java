@@ -1,5 +1,6 @@
 package logic.core.ocr;
 
+import logic.core.config.Constants;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
 import org.apache.log4j.Logger;
@@ -13,7 +14,7 @@ public class UsefulTesseract {
     public void scanTextWithImage(String fileName,String language){
         File imageFile = new File(fileName);
         Tesseract instance = new Tesseract();
-        instance.setDatapath("D:\\OCR\\tessdata");
+        instance.setDatapath(Constants.PATH_TO_LANGUAGE_DIRECTORY);
         instance.setLanguage(language);
         try {
             result = instance.doOCR(imageFile);

@@ -1,5 +1,6 @@
 package logic.core.excel;
 
+import logic.core.config.Constants;
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -16,23 +17,23 @@ public class ExcelServiceImpl implements ExcelService {
 
     @Override
     public void writeIntoExcelDocument(Collection<ExcelDataStructure> fields, String reportName) {
-        File file = new File(reportName + ".xlsx");
+        File file = new File(reportName + Constants.EXCEL_2007_EXTENSION);
         Workbook book = new XSSFWorkbook();
-        Sheet sheet = book.createSheet("Finance report");
+        Sheet sheet = book.createSheet(Constants.EXCEL_SHEET_NAME);
         addDataToExcelDocument(book,sheet,fields,0,file);
-        LOGGER.info("Report was created successfully!");
+        LOGGER.info(Constants.Messages.REPORT_SUCCESS_CREATING);
     }
 
     @Override
     public void updateExcelDocument(Collection<ExcelDataStructure> fields, String reportName) {
-        File file = new File(reportName+".xlsx");
+        File file = new File(reportName+Constants.EXCEL_2007_EXTENSION);
         try {
             FileInputStream inputStream = new FileInputStream(file);
             Workbook workbook = new XSSFWorkbook(inputStream);
-            Sheet sheet = workbook.getSheet("Finance report");
+            Sheet sheet = workbook.getSheet(Constants.EXCEL_SHEET_NAME);
             inputStream.close();
             addDataToExcelDocument(workbook,sheet,fields,sheet.getLastRowNum(),file);
-            LOGGER.info("Report was updated successfully!");
+            LOGGER.info(Constants.Messages.REPORT_SUCCESS_UPDATING);
         } catch (IOException e) {
             LOGGER.error("Error in reading document",e);
         }
